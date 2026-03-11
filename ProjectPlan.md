@@ -6,13 +6,19 @@ To achieve this goal, we plan on collecting financial data at two different leve
 
 ## Team
 Grace Jiang
+
 Identify and collect relevant financial data
+
 Clean and preprocess financial data
+
 Integrate datasets at the industry and company levels
 
 Richard Li
+
 Conduct statistical analysis and data exploration
+
 Develop visualizations to illustrate findings
+
 Contribute to interpretation of results
 
 Both members will collaborate on defining the research questions, validating the analysis results, and preparing the final project deliverables.
