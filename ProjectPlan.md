@@ -25,8 +25,11 @@ Both members will collaborate on defining the research questions, validating the
 
 ## Research Questions
 The primary goal is to explore the relationship between industry-level Net Margin and dividend payout ratio behavior within the S&P 500.
+
 •	How is the average profitability (Net Margin) of an industry correlated with the dividend payout ratios of the S&P 500 companies within that industry?
+
 •	Is there any obvious difference in dividend payout ratios between high-margin industries (such as Technology) and low-margin industries (such as Retail)?
+
 •	How much does industry-level performance affect the "Dividend Payout Ratio" of top S&P 500 companies?
 By answering these questions, we hope to gain insights on how the profitability of an industry as a whole may influence dividend policies and investor income.
 
