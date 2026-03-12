@@ -1,10 +1,10 @@
 # Project plan
 
-## Overview
+# Overview
 The objective of this study is to examine the correlation between the profitability of an industry and the payout ratios of the S&P 500 companies within that industry. We want to see how the average net margin of an industry influences the payout ratios of the top S&P 500 companies. Knowing this information can help us understand how the health of an industry as a whole affects investor returns and corporate policies.
 To achieve this goal, we plan on collecting financial data at two different levels. First, we will use Net Margin data to establish industry-level profitability benchmarks (Aswath Damodaran, NYU Stern). Second, we will programmatically scrape current dividend yields and payout ratios for all S&P 500 components using the yfinance API. We will then merge/clean these datasets and map each S&P 500 company to their respective NYU Stern industry. Finally, we will use exploratory data analysis and statistical visualization to find trends between industry-wide health and company dividend performance.
 
-## Team
+# Team
 Grace Jiang
 
 Identify and collect relevant financial data
@@ -23,7 +23,7 @@ Contribute to interpretation of results
 
 Both members will collaborate on defining the research questions, validating the analysis results, and preparing the final project deliverables.
 
-## Research Questions
+# Research Questions
 The primary goal is to explore the relationship between industry-level Net Margin and dividend payout ratio behavior within the S&P 500.
 
 •	How is the average profitability (Net Margin) of an industry correlated with the dividend payout ratios of the S&P 500 companies within that industry?
@@ -33,7 +33,7 @@ The primary goal is to explore the relationship between industry-level Net Margi
 •	How much does industry-level performance affect the "Dividend Payout Ratio" of top S&P 500 companies?
 By answering these questions, we hope to gain insights on how the profitability of an industry as a whole may influence dividend policies and investor income.
 
-## Dataset
+# Dataset
 In order to answer our research questions, we will be combining two different data sources that provide information on financial performance at industry and company levels.
 ## Dataset 1: Industry Benchmarks
 The first data source is from the NYU Stern School of Business' publicly available datasets created by Aswath Damodaran. We will be using the "Margins by Industry" dataset, which provides financial information at the industry level across various industries. It includes various industry's average net margins and profitability metrics. We will be using this data source as the main benchmark to calculate Industry Net Margin, which is our main accounting variable. This dataset will also help us understand the general financial profitability of various industries.
