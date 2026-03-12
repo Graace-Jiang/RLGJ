@@ -44,6 +44,10 @@ These two datasets will be joined using industry or sector classifications as th
 This integration will allow us to check if industries with higher net margins have firms with higher dividend yields, for example.
 ## Potential Constraints
 Industry classifications may not line up between the NYU Stern datasets and Yahoo Finance sector tags. We may need to build a manual mapping table of industry labels to handle this.
+## Links
+https://pages.stern.nyu.edu/~adamodar/New_Home_Page/data.html: Aswath Damodaran's datasets. NYU professor's annual compilation of industry-level corporate finance metrics: betas, cost of capital, margins, multiples, and country risk premiums in Excel/CSV.
+
+https://finance.yahoo.com/: Yahoo Finance historical data. Daily stock prices, dividends, and splits for global equities downloadable as CSV (via yfinance Python library for programmatic access).
 
 # Timeline
 #### Data Acquisition: Download Damodaran’s "Margins by Industry" Excel file and write a Python script using yfinance to pull dividend data for S&P 500 firms.	
