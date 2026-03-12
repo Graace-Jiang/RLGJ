@@ -5,7 +5,7 @@ The objective of this study is to examine the correlation between the profitabil
 To achieve this goal, we plan on collecting financial data at two different levels. First, we will use Net Margin data to establish industry-level profitability benchmarks (Aswath Damodaran, NYU Stern). Second, we will programmatically scrape current dividend yields and payout ratios for all S&P 500 components using the yfinance API. We will then merge/clean these datasets and map each S&P 500 company to their respective NYU Stern industry. Finally, we will use exploratory data analysis and statistical visualization to find trends between industry-wide health and company dividend performance.
 
 # Team
-Grace Jiang
+## Grace Jiang
 
 Identify and collect relevant financial data
 
@@ -13,7 +13,7 @@ Clean and preprocess financial data
 
 Integrate datasets at the industry and company levels
 
-Richard Li
+## Richard Li
 
 Conduct statistical analysis and data exploration
 
@@ -46,32 +46,39 @@ This integration will allow us to check if industries with higher net margins ha
 Industry classifications may not line up between the NYU Stern datasets and Yahoo Finance sector tags. We may need to build a manual mapping table of industry labels to handle this.
 
 # Timeline
-Data Acquisition: Download Damodaran’s "Margins by Industry" Excel file and write a Python script using yfinance to pull dividend data for S&P 500 firms.	
-Date: March 11 
+#### Data Acquisition: Download Damodaran’s "Margins by Industry" Excel file and write a Python script using yfinance to pull dividend data for S&P 500 firms.	
+Date: March 11
+
 Responsibility: Grace Jiang
 
-Industry Mapping:	Create a manual mapping table to align NYU Stern industry names with Yahoo Finance sector tags.	
+#### Industry Mapping:	Create a manual mapping table to align NYU Stern industry names with Yahoo Finance sector tags.	
 Date: March 20	
+
 Responsibility: Grace Jiang & Richard Li
 
-Data Cleaning:	Handle missing dividend values (NaNs), remove outliers, and convert all financial strings to numeric types in Pandas.	
+#### Data Cleaning:	Handle missing dividend values (NaNs), remove outliers, and convert all financial strings to numeric types in Pandas.	
 Date: March 24	
+
 Responsibility: Grace Jiang
 
-Statistical Analysis:	Perform correlation analysis and regression between Net Margin (Industry) and Dividend Yield (Company).	
+#### Statistical Analysis:	Perform correlation analysis and regression between Net Margin (Industry) and Dividend Yield (Company).	
 Date: April 12	
+
 Responsibility: Richard Li
 
-Visualization:	Create scatter plots and heatmaps to illustrate the profitability-yield relationship across sectors.	
+#### Visualization:	Create scatter plots and heatmaps to illustrate the profitability-yield relationship across sectors.	
 Date: April 12	
+
 Responsibility: Richard Li
 
-Report	Validate analysis results, ensure data provenance is documented, and finalize the Project Report.	
+#### Report	Validate analysis results, ensure data provenance is documented, and finalize the Project Report.	
 Date: April 19
+
 Responsibility: Grace Jiang & Richard Li
 
-Presentation	Prepare presentation slides and final compilation	
+#### Presentation	Prepare presentation slides and final compilation	
 Date: May 1	
+
 Responsibility: Grace Jiang & Richard Li
 
 # Constraints
