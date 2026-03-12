@@ -44,3 +44,67 @@ These two datasets will be joined using industry or sector classifications as th
 This integration will allow us to check if industries with higher net margins have firms with higher dividend yields, for example.
 ## Potential Constraints
 Industry classifications may not line up between the NYU Stern datasets and Yahoo Finance sector tags. We may need to build a manual mapping table of industry labels to handle this.
+
+# Timeline
+Data Acquisition: Download Damodaran’s "Margins by Industry" Excel file and write a Python script using yfinance to pull dividend data for S&P 500 firms.	
+Date: March 11 
+Responsibility: Grace Jiang
+
+Industry Mapping:	Create a manual mapping table to align NYU Stern industry names with Yahoo Finance sector tags.	
+Date: March 20	
+Responsibility: Grace Jiang & Richard Li
+
+Data Cleaning:	Handle missing dividend values (NaNs), remove outliers, and convert all financial strings to numeric types in Pandas.	
+Date: March 24	
+Responsibility: Grace Jiang
+
+Statistical Analysis:	Perform correlation analysis and regression between Net Margin (Industry) and Dividend Yield (Company).	
+Date: April 12	
+Responsibility: Richard Li
+
+Visualization:	Create scatter plots and heatmaps to illustrate the profitability-yield relationship across sectors.	
+Date: April 12	
+Responsibility: Richard Li
+
+Report	Validate analysis results, ensure data provenance is documented, and finalize the Project Report.	
+Date: April 19
+Responsibility: Grace Jiang & Richard Li
+
+Presentation	Prepare presentation slides and final compilation	
+Date: May 1	
+Responsibility: Grace Jiang & Richard Li
+
+# Constraints
+## Naming
+Our biggest constraint is **inconsistent industry naming**. The NYU Stern dataset may list a company under *Financial Services*, while Yahoo Finance may categorize it under *Credit Services*.
+
+By limiting our scope to **S&P 500 companies**, we reduce the number of firms requiring manual verification, but we will still need to create a **manual mapping dictionary** to ensure correct joins. This may introduce some bias.
+
+## Time-Lag Issue
+Industry profitability data from NYU Stern is typically **updated annually**, while dividend payout ratios from Yahoo Finance **change daily** based on stock prices.
+
+We must clearly define the **reference date** so industry averages and company dividend metrics are comparable. Currently, selecting a date such as **12/31 or 1/1** seems reasonable since it aligns with financial reporting periods.
+
+However, we are unsure whether we will be able to extract the exact historical values for that specific date.
+
+## Survivorship Bias
+Our dataset only includes companies **currently in the S&P 500**. It does not include companies that may have been removed from the index or gone bankrupt, which may introduce survivorship bias.
+
+
+# Gaps
+
+## The "Minimum Count"
+We are not yet sure what the **minimum number of companies per industry** should be to ensure meaningful analysis.
+
+If an NYU industry contains only **one S&P 500 company**, that firm may not represent the entire industry well. We may need to **aggregate smaller sub-industries into broader sectors**.
+
+## What Counts as "Profitability"
+We are currently using **Net Margin** as our primary profitability metric. However, we are still debating whether **Dividend Yield** might better represent sustainability. We will make a final decision after our initial exploratory data analysis.
+
+## Workflow Automation
+We are still determining how to make the workflow **fully reproducible and automated**.
+
+Key considerations include:
+- How to store the **manual mapping table** for industry classifications
+- Allowing other researchers to **run the same Python scripts and reproduce our results**
+- Documenting the **industry matching mechanism**
