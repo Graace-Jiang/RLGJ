@@ -1,0 +1,6 @@
+Ticker,YahooIndustry,IndustryMapped,Sector,DividendYield,PayoutRatio,NetMargin
+AAPL,Consumer Electronics,Electronics (Consumer & Office),Technology,0.41,0.1304,0.0432535201899062
+MSFT,Software - Infrastructure,Computer Services,Technology,0.97,0.21280001,0.0531640739693299
+GOOGL,Internet Content & Information,Advertising,Communication Services,0.28,0.076799996,0.0138633425611893
+AMZN,Internet Retail,Retail (General),Consumer Cyclical,0.0,0.0,0.0549571669053718
+TSLA,Auto Manufacturers,Auto & Truck,Consumer Cyclical,0.0,0.0,0.0307624289711712
