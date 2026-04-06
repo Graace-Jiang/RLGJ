@@ -1,41 +1,85 @@
-# Milestone 3: Interim Status Report
+# Status Report
 
-### Data Collection and Integration
+## Overview
 
-We successfully collected two complementary datasets for this project. The first dataset is the industry-level profitability data from Damodaran, which provides net margin information across industries. The second dataset was constructed using the yfinance Python library to retrieve firm-level financial data for selected S&P 500 companies, including dividend yield, payout ratio, and industry classification.
+In this project, we aimed to integrate firm-level financial data with industry-level benchmarks to create a clean and consistent dataset for analysis. We collected company data using yfinance and combined it with Damodaran’s industry margin data. A key challenge in this process was aligning industry classifications across the two datasets.
 
-We developed a Python script (scripts/pull_dividend_data.py) to automate data retrieval from Yahoo Finance. The collected data was saved as sp500_dividend_data.csv. 
+---
 
-To integrate the two datasets, we created a merging script (scripts/merge_data.py) that combines firm-level data with industry-level margin data.
+## Data Collection
 
-### Changes to the Project Plan
+We collected firm-level data for S&P 500 companies using the yfinance Python library. The dataset includes key variables such as ticker symbol, company name, industry, sector, dividend yield, and payout ratio.
 
-During implementation, we found that the industry labels from Yahoo Finance did not directly match the industry classifications used in the Damodaran dataset. As a result, we adjusted our original plan by introducing a manual mapping step to align the two datasets.
+In addition, we downloaded Damodaran’s “Margins by Industry” dataset, which provides industry-level net margin benchmarks. This dataset serves as a reference for comparing firm performance within each industry.
 
-This change improved the data integration process and allowed us to successfully merge the datasets.
+---
 
-### Challenges and Solutions
+## Industry Alignment
 
-A major challenge we encountered was the mismatch in industry classifications between the two datasets. The industry names from Yahoo Finance differ from those used in the Damodaran dataset, which initially resulted in missing values after merging.
+One of the main challenges in this project was that the industry labels from Yahoo Finance and Damodaran were not directly compatible. There were two key issues:
 
-To address this issue, we created a manual mapping dictionary to align industry names between the datasets. This significantly improved the merge results and reduced missing values.
+1. **Naming inconsistencies**  
+   Some industries had different names across the datasets (e.g., “Semiconductors” vs. “Semiconductor”).
 
-Another challenge was handling missing values in the dividend data. Some firms do not pay dividends, leading to missing values in dividend yield and payout ratio. We addressed this by replacing missing values with zeros, assuming that non-dividend-paying firms have zero payout.
+2. **Different levels of granularity**  
+   Yahoo Finance often uses more detailed industry categories, while Damodaran uses broader groupings.
 
-We also performed basic data cleaning, including converting all financial variables to numeric types and removing outliers to ensure data consistency.
+To address this, we created a manual mapping table (`industry_mapping.csv`) to standardize industry labels. This mapping performed two functions:
+- Aligning different naming conventions across datasets
+- Grouping highly specific industries into broader categories when necessary
 
-### Artifacts
+### Example Mapping Table
 
-The following files were created and used in this milestone:
+| Yahoo Industry                  | Mapped Industry (Damodaran)        | Reason |
+|--------------------------------|------------------------------------|--------|
+| Software - Infrastructure       | Computer Services                  | Naming difference |
+| Internet Retail                | Retail (General)                   | Grouped into broader category |
+| REIT - Industrial              | R.E.I.T.                           | Grouped into broader category |
+| Communication Equipment        | Telecom. Equipment                 | Naming difference |
+| Asset Management               | Investments & Asset Management     | Naming difference |
 
-- data/marginGlobal.xls  
-- data/sp500_dividend_data.csv  
-- data/final_dataset.csv  
-- data/clean_final_dataset.csv  
-- scripts/pull_dividend_data.py  
-- scripts/merge_data.py  
-- scripts/clean_data.py  
+---
 
-### Individual Contribution (Grace)
+## Iterative Refinement
 
-In this milestone, I was responsible for implementing the data pipeline. I developed Python scripts to retrieve firm-level data using yfinance, processed and cleaned the data using Pandas, and performed dataset integration. I also identified and resolved industry classification mismatches by creating a manual mapping approach. Additionally, I handled missing values and performed data cleaning to prepare the dataset for further analysis.
+After applying the initial mapping, we merged the datasets and identified unmatched industries. We then iteratively refined the mapping table by reviewing unmatched cases and updating the mappings.
+
+This iterative process significantly reduced the number of unmatched observations. After refinement, only one observation remained unmatched due to missing industry information in the source data.
+
+---
+
+## Data Merging
+
+We merged the firm-level dataset with the Damodaran dataset using the standardized industry labels. This resulted in a combined dataset that includes both firm-specific variables and industry-level net margin benchmarks.
+
+---
+
+## Data Cleaning
+
+After merging, we performed several data cleaning steps:
+
+- Converted financial variables (Dividend Yield, Payout Ratio, Net Margin) to numeric types
+- Handled missing values by removing observations with missing critical fields
+- Removed outliers by applying reasonable bounds:
+  - Payout Ratio between 0 and 5
+  - Dividend Yield between 0 and 20
+
+After cleaning, the final dataset contains 493 observations with no missing values.
+
+---
+
+## Final Dataset
+
+The final dataset (`clean_final_dataset.csv`) is fully cleaned and ready for analysis. It includes:
+
+- Firm-level financial data
+- Standardized industry classifications
+- Industry-level net margin benchmarks
+
+This dataset provides a consistent foundation for further financial and strategic analysis.
+
+---
+
+## Conclusion
+
+The core challenge of this project was aligning industry classifications across two datasets with different naming conventions and levels of detail. We addressed this through manual mapping and iterative refinement, resulting in a clean and integrated dataset suitable for analysis.
