@@ -1,8 +1,10 @@
 # Status Report
 
 ## Overview
+For this project we sought to merge firm level financial data with industry level benchmarks to produce a single "clean" data set to explore the relationship of industry margin and payout ratios. By combining industry level benchmarks for net margin with company specific dividend data we seek to determine if an industry that is, on average, more profitable (e.g. Technology) will have systematically different dividend behaviors than an industry that is less profitable (e.g. Retail). Our primary research question is does industry margin systematically explain differences in dividend behavior for the top performers within an industry among the S&P 500.
 
-In this project, we aimed to integrate firm-level financial data with industry-level benchmarks to create a clean and consistent dataset for analysis on the relationship of industry margin and payout ratios.  By integrating industry-level net margin benchmarks with company-specific dividend data, we explore how an industry's overall profitability influences the payout ratios of its top-performing constituents in the S&P 500. Our primary research question asks whether high-margin industries (e.g., Technology) exhibit systematically different dividend behaviors compared to low-margin industries (e.g., Retail). Through the first half of the project, we collected company data using yfinance and combined it with Damodaran’s industry margin data. We have successfully moved from conceptual planning to a functional data pipeline. We have navigated significant data curation challenges, particularly regarding semantic alignment across disparate financial datasets. A key challenge so far in this process was aligning industry classifications across the two datasets. Also, as we moved into the statistical analysis first phase led by Richard, we encountered significant modeling challenges that have forced us to re-evaluate our analytical approach. This report outlines our progress, the artifacts generated, and a significant methodological pivot necessitated by initial statistical findings. 
+Thus far we have moved from conceptual planning to a functioning data set. We have encountered large data curation challenges, especially in terms of semantic compatibility across financial data sets. One of the biggest challenges we have faced early in this process was aligning the industry classification between the two data sets. As we moved into the statistical analysis first phase (led by Richard) we have faced large modeling challenges that have forced us to reevaluate our analytical approach. This report details our progress, the artifacts we have produced, and our major methodological change based on initial statistical results.
+
 
 ---
 
@@ -48,6 +50,7 @@ pull_dividend_data.py
 clean_final_dataset.csv
 
 Format: Semi-structured Excel data requiring significant structural cleaning to isolate US-based industry averages.
+
 ---
 
 ## Industry Alignment
@@ -78,15 +81,15 @@ To address this, we created a manual mapping table (`industry_mapping.csv`) to s
 
 ## Iterative Refinement
 
-After applying the initial mapping, we merged the datasets and identified unmatched industries. We then iteratively refined the mapping table by reviewing unmatched cases and updating the mappings.
-
-This iterative process significantly reduced the number of unmatched observations. After refinement, only one observation remained unmatched due to missing industry information in the source data.
+Then we iteratively refined the mapping table by looking at the unmatched cases and updating mappings.
+This iterative process reduced the number of unmatched observations. After refinement, there was only one unmatched observation due to lack of industry information in the source data.
 
 ---
 
 ## Data Merging
 
-We merged the firm-level dataset with the Damodaran dataset using the standardized industry labels created in the previous step. We performed a left join in Pandas, using the mapped industry column as the primary key. This resulted in a combined dataset that includes both firm-specific variables (like Ticker and Payout Ratio) and industry-level net margin benchmarks.
+We then merged the firm-level data set with the Damodaran data set on the standardized industry labels that were created in the previous step. This was done by performing a left join in Pandas on the mapped industry column.
+Our combined data set includes both firm-level variables (in this case, Ticker and Payout Ratio) as well as industry-level net margin benchmarks.
 
 ---
 
@@ -120,17 +123,19 @@ This dataset provides a consistent foundation for further financial and strategi
 
 ## Challenges and Solutions
 
-As the lead for statistical analysis, Richard implemented the first rounds of regression testing using the cleaned dataset (also with artifact testing scripts). Our goal was to validate the hypothesis that industry profitability correlates with payout ratios. However, the primary challenge encountered during the analysis phase involved the lack of predictive effectiveness in our cross-industry model. While our technical pipeline for merging the datasets is successful, our initial regression analysis across industries yielded very poor results. Despite aggregating the data to the industry level to find broader trends, the R-squared values remained exceptionally low ($R^2 < 0.10$). This indicates that Industry Net Margin alone is an insufficient predictor for the payout ratios of S&P 500 companies. This lack of predictive power suggests that our current variables do not capture the complexity of corporate dividend decisions.
+As the statistical analysis lead, I implemented the first rounds of regression testing on the cleaned data set (also with artifact testing scripts) (found here). Our goal was to validate the hypothesis that industries that are more profitable on net margin are likely to have lower payout ratios.
+
+Our main challenge we faced during the analysis phase was the lack of predictive effectiveness in a cross-industry model. While our technical pipeline for merging the data sets is a success (we were able to join the data sets), our initial regression analysis across industries was very poor. Despite aggregating the data at the industry level in order to find trends, the R-squared values remained exceptionally low ($R^2 < 0.10$). This means that Industry Net Margin on its own is not predictive of the payout ratios of S&P 500 companies. This lack of predictive power indicates that our current set of variables are not capable of representing the complexity of what drives a company to dividend.
 
 ---
 
 ## Gaps and Request for Guidance
 
-In accordance with the "Gaps" requirement of our project plan, we are seeking instructor feedback on our analytical direction:
+In accordance with the “Gaps” portion of our project plan, I am seeking feedback from our instructor/TAs of the direction we are taking analytically.
 
 #### Question for Instructors/TAs:
 
-Should we complete our current model and document the finding that no significant relationship exists between these specific variables, or should we seek to identify and add additional factors (such as Free Cash Flow or Market Capitalization) to our model to see if we can better learn and predict the relationship? We are prepared to enrich our dataset further if a "no relationship" finding is considered insufficient for the final project submission.
+Should we complete our current model and document the finding that no significant relationship exists between these specific variables, or should we seek to identify and add additional factors (such as Free Cash Flow or Market Capitalization) to our model to see if we can better learn and predict the relationship? We are okay with enriching our data set more if a "no relationship" finding would be considered insufficient for the final project submission.
 
 ---
 
@@ -138,15 +143,15 @@ Should we complete our current model and document the finding that no significan
 
 #### Grace Jiang
 
-Grace was responsible for the core data curation and acquisition workflow. She implemented the Python scripts for data retrieval (pull_dividend_data.py e.g.) and integration (merge_data.py e.g.). Grace also led the iterative refinement of the industry mapping table and the systematic cleaning of the final dataset to ensure all numeric values were standardized and outliers were managed.
+Grace did the main data curation/ acquisition workflow, wrote the python scripts for downloading data (pull_dividend_data.py e.g.), and integrated all the data together (merge_data.py e.g.). Grace also did the industry mapping table iteration and the final dataset cleaning process, making all the numeric values consistent and removing outliers.
 
 #### Richard Li
 
-Richard's contribution focused on the data analysis, modeling, and documentation phases. He developed the analysis_modification_tried.py and analysis_visualization.py scripts to test our research questions. Richard identified the poor effectiveness of the current model and have been responsible for documenting these challenges in this report and updating our project timeline to reflect our current analytical pivot. Richard also helped in the construction of industry mapping and data downloading.
+Richard did the pilot data analysis, modeling, and documentation so far. Wrote the analysis_modification_tried.py and analysis_visualization.py to quickly test our research questions. Richard noticed the ineffectiveness of our model. He has been documenting these for us in this report and also helped update our project timeline to reflect our recent analytical pivot. (pull_dividend_data.py, merge_data.py). Richard also did industry mapping and data downloading construction.
 
 ---
 
-# Updated Timeline
+## Updated Timeline
 #### Data Acquisition: Download Damodaran’s "Margins by Industry" Excel file and write a Python script using yfinance to pull dividend data for S&P 500 firms.	
 Completed
 
@@ -186,4 +191,4 @@ Responsibility: Grace Jiang & Richard Li
 
 ## Conclusion
 
-The core challenge of this project was aligning industry classifications across two datasets with different naming conventions and levels of detail. We addressed this through manual mapping and iterative refinement, resulting in a clean and integrated dataset suitable for analysis.
+From the beginning, the main issue of this project was taking two different industry datasets and mapping them together because their names and levels of detail were different. We overcame this through manual mapping and iteration to get a nice clean data set ready for analysis. However, we now encountered new issues regarding statistical analysis, and are looking forward to the feedback on direction as well as techinical programming advice.
