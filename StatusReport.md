@@ -128,10 +128,9 @@ As the lead for statistical analysis, Richard implemented the first rounds of re
 
 In accordance with the "Gaps" requirement of our project plan, we are seeking instructor feedback on our analytical direction:
 
-#### Research Question for Instructors/TAs:
+#### Question for Instructors/TAs:
 
 Should we complete our current model and document the finding that no significant relationship exists between these specific variables, or should we seek to identify and add additional factors (such as Free Cash Flow or Market Capitalization) to our model to see if we can better learn and predict the relationship? We are prepared to enrich our dataset further if a "no relationship" finding is considered insufficient for the final project submission.
-
 
 ---
 
@@ -144,6 +143,44 @@ Grace was responsible for the core data curation and acquisition workflow. She i
 #### Richard Li
 
 Richard's contribution focused on the data analysis, modeling, and documentation phases. He developed the analysis_modification_tried.py and analysis_visualization.py scripts to test our research questions. Richard identified the poor effectiveness of the current model and have been responsible for documenting these challenges in this report and updating our project timeline to reflect our current analytical pivot. Richard also helped in the construction of industry mapping and data downloading.
+
+---
+
+# Updated Timeline
+#### Data Acquisition: Download Damodaran’s "Margins by Industry" Excel file and write a Python script using yfinance to pull dividend data for S&P 500 firms.	
+Completed
+
+Responsibility: Grace Jiang
+
+#### Industry Mapping:	Create a manual mapping table to align NYU Stern industry names with Yahoo Finance sector tags.	
+Completed	
+
+Responsibility: Grace Jiang & Richard Li
+
+#### Data Cleaning:	Handle missing dividend values (NaNs), remove outliers, and convert all financial strings to numeric types in Pandas.	
+Completed
+
+Responsibility: Grace Jiang
+
+#### Statistical Analysis:	Perform correlation analysis and regression between Net Margin (Industry) and Dividend Yield (Company).	
+Pilot Modeling Completed. Plan to complete modified version based on feedback for this report by  April 20
+
+Responsibility: Richard Li
+
+#### Visualization:	Create scatter plots and heatmaps to illustrate the profitability-yield relationship across sectors.	
+Started. Plan to complete with the modified version of statistical analysis by  April 20
+
+Responsibility: Richard Li
+
+#### Report	Validate analysis results, ensure data provenance is documented, and finalize the Project Report.	
+Not started. Planned Date: April 25
+
+Responsibility: Grace Jiang & Richard Li
+
+#### Presentation	Prepare presentation slides and final compilation	
+Not started. Planned Date: May 1	
+
+Responsibility: Grace Jiang & Richard Li
 
 ---
 
