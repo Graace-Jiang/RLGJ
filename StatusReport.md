@@ -2,7 +2,7 @@
 
 ## Overview
 
-In this project, we aimed to integrate firm-level financial data with industry-level benchmarks to create a clean and consistent dataset for analysis. We collected company data using yfinance and combined it with Damodaran’s industry margin data. A key challenge in this process was aligning industry classifications across the two datasets.
+In this project, we aimed to integrate firm-level financial data with industry-level benchmarks to create a clean and consistent dataset for analysis. We collected company data using yfinance and combined it with Damodaran’s industry margin data. A key challenge in this process was aligning industry classifications across the two datasets in a reproducible way.
 
 ---
 
@@ -24,33 +24,45 @@ One of the main challenges in this project was that the industry labels from Yah
 2. **Different levels of granularity**  
    Yahoo Finance often uses more detailed industry categories, while Damodaran uses broader groupings.
 
-To address this, we created a manual mapping table (`industry_mapping.csv`) to standardize industry labels. This mapping performed two functions:
-- Aligning different naming conventions across datasets
-- Grouping highly specific industries into broader categories when necessary
+To address this, we used OpenRefine to implement rule-based transformations that map Yahoo Finance industry labels to Damodaran industry categories. Instead of manually editing values, we defined reusable rules based on patterns such as keyword matching (e.g., “contains('retail')”) and category grouping (e.g., mapping all “REIT - *” categories to “R.E.I.T.”).
 
-### Example Mapping Table
+This approach allowed us to:
 
-| Yahoo Industry                  | Mapped Industry (Damodaran)        | Reason |
-|--------------------------------|------------------------------------|--------|
-| Software - Infrastructure       | Computer Services                  | Naming difference |
-| Internet Retail                | Retail (General)                   | Grouped into broader category |
-| REIT - Industrial              | R.E.I.T.                           | Grouped into broader category |
-| Communication Equipment        | Telecom. Equipment                 | Naming difference |
-| Asset Management               | Investments & Asset Management     | Naming difference |
+- Standardize naming differences across datasets  
+- Aggregate more detailed industries into broader Damodaran categories  
+- Ensure that the entire mapping process is fully reproducible  
+
+The complete transformation process is documented in the exported OpenRefine operation history (`openrefine_operations.json`), which allows every step to be reproduced from the original dataset.
+
+### Example Mapping Logic
+
+| Yahoo Industry                  | Damodaran Industry                | Logic |
+|--------------------------------|----------------------------------|-------|
+| Software - Infrastructure       | Computer Services                | Keyword-based rule |
+| Internet Retail                | Retail (General)                 | Keyword-based grouping |
+| REIT - Industrial              | R.E.I.T.                         | Prefix-based rule |
+| Communication Equipment        | Telecom. Equipment               | Naming normalization |
+| Asset Management               | Investments & Asset Management   | Keyword-based rule |
 
 ---
 
-## Iterative Refinement
+## Reproducibility
 
-After applying the initial mapping, we merged the datasets and identified unmatched industries. We then iteratively refined the mapping table by reviewing unmatched cases and updating the mappings.
+A key requirement of this project is reproducibility. To ensure that our data processing pipeline can be fully reproduced:
 
-This iterative process significantly reduced the number of unmatched observations. After refinement, only one observation remained unmatched due to missing industry information in the source data.
+- All industry mapping was performed in OpenRefine using rule-based transformations  
+- The cleaned dataset was exported as `industry_mapped_openrefine.csv`  
+- The full sequence of transformations was exported as `openrefine_operations.json`  
+
+Using these files, the entire mapping process can be reproduced starting from the original raw dataset without any manual intervention.
 
 ---
 
 ## Data Merging
 
-We merged the firm-level dataset with the Damodaran dataset using the standardized industry labels. This resulted in a combined dataset that includes both firm-specific variables and industry-level net margin benchmarks.
+We merged the processed company dataset with Damodaran’s industry dataset using the standardized `DamodaranIndustry` field. This allowed us to attach industry-level net margin benchmarks to each firm.
+
+The merging process successfully matched 502 out of 503 observations. One observation could not be matched because the original dataset did not contain industry information.
 
 ---
 
@@ -58,11 +70,14 @@ We merged the firm-level dataset with the Damodaran dataset using the standardiz
 
 After merging, we performed several data cleaning steps:
 
-- Converted financial variables (Dividend Yield, Payout Ratio, Net Margin) to numeric types
-- Handled missing values by removing observations with missing critical fields
+- Converted financial variables (Dividend Yield, Payout Ratio, Net Margin) to numeric types  
+- Filled non-critical missing values (e.g., Dividend Yield and Payout Ratio) with zeros  
+- Removed observations with missing critical fields (DamodaranIndustry or NetMargin)  
 - Removed outliers by applying reasonable bounds:
-  - Payout Ratio between 0 and 5
-  - Dividend Yield between 0 and 20
+  - Payout Ratio between 0 and 5  
+  - Dividend Yield between 0 and 20  
+
+One observation with missing industry information (from the original dataset) was removed during this step.
 
 After cleaning, the final dataset contains 493 observations with no missing values.
 
@@ -72,14 +87,14 @@ After cleaning, the final dataset contains 493 observations with no missing valu
 
 The final dataset (`clean_final_dataset.csv`) is fully cleaned and ready for analysis. It includes:
 
-- Firm-level financial data
-- Standardized industry classifications
-- Industry-level net margin benchmarks
+- Firm-level financial data  
+- Standardized industry classifications (Damodaran)  
+- Industry-level net margin benchmarks  
 
-This dataset provides a consistent foundation for further financial and strategic analysis.
+This dataset provides a consistent and reproducible foundation for further financial and strategic analysis.
 
 ---
 
 ## Conclusion
 
-The core challenge of this project was aligning industry classifications across two datasets with different naming conventions and levels of detail. We addressed this through manual mapping and iterative refinement, resulting in a clean and integrated dataset suitable for analysis.
+The core challenge of this project was aligning industry classifications across two datasets with different naming conventions and levels of detail. Instead of relying on manual mapping, we implemented a reproducible, rule-based transformation process using OpenRefine. This approach ensured consistency, scalability, and full reproducibility, resulting in a clean and integrated dataset suitable for analysis.

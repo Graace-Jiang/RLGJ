@@ -10,7 +10,7 @@ for col in numeric_cols:
 df["DividendYield"] = df["DividendYield"].fillna(0)
 df["PayoutRatio"] = df["PayoutRatio"].fillna(0)
 
-df = df.dropna(subset=["IndustryMapped", "NetMargin"])
+df = df.dropna(subset=["DamodaranIndustry", "NetMargin"])
 
 df = df[(df["PayoutRatio"] >= 0) & (df["PayoutRatio"] <= 5)]
 df = df[(df["DividendYield"] >= 0) & (df["DividendYield"] <= 20)]
