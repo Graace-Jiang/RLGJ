@@ -1,6 +1,6 @@
 import pandas as pd
 
-df_company = pd.read_csv("data/industry_mapped_openrefine.csv")
+df_company = pd.read_csv("data/sp500_yahoo_mapped_to_damodaran.csv")
 
 df_margin = pd.read_excel(
     "data/marginGlobal.xls",
