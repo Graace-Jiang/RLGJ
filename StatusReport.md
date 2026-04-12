@@ -51,7 +51,7 @@ The complete transformation process is documented in the exported OpenRefine ope
 A key requirement of this project is reproducibility. To ensure that our data processing pipeline can be fully reproduced:
 
 - All industry mapping was performed in OpenRefine using rule-based transformations  
-- The cleaned dataset was exported as `industry_mapped_openrefine.csv`  
+- The cleaned dataset was exported as `sp500_yahoo_mapped_to_damodaran.csv`  
 - The full sequence of transformations was exported as `openrefine_operations.json`  
 
 Using these files, the entire mapping process can be reproduced starting from the original raw dataset without any manual intervention.
