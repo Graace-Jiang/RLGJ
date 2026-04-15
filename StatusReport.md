@@ -165,15 +165,15 @@ Date: April 18
 
 Responsibility: Richard Li
 
-#### Report	Validate analysis results, ensure data provenance is documented, and finalize the Project Report.	
+#### Report	Validate analysis results, ensure data provenance is documented, and finalize the Project Report components.	
 
 Date: April 24
 
 Responsibility: Grace Jiang & Richard Li
 
-#### Presentation	Prepare presentation slides and final compilation	
+#### Final report compilation	& Submission
 
-Date: May 1	
+Date: May 2	
 
 Responsibility: Grace Jiang & Richard Li
 
