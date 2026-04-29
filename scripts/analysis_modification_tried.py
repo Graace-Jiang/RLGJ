@@ -1,27 +1,23 @@
 import pandas as pd
-import statsmodels.api as sm
+from sklearn.linear_model import LinearRegression
 
+# Load the updated dataset
 df = pd.read_csv("data/clean_final_dataset.csv")
 
-industry_df = df.groupby('IndustryMapped').agg({
+# Change 'IndustryMapped' to 'DamodaranIndustry'
+industry_df = df.groupby('DamodaranIndustry').agg({
     'NetMargin': 'first',
     'PayoutRatio': 'mean',
     'Ticker': 'count'
-}).rename(columns={'Ticker': 'CompanyCount'})
+}).dropna()
 
+# Filter and model as before
+filtered_data = industry_df[industry_df['Ticker'] >= 5]
+X = filtered_data[['NetMargin']]
+y = filtered_data['PayoutRatio']
 
-filtered_df = industry_df[industry_df['CompanyCount'] >= 5].reset_index()
+model = LinearRegression().fit(X, y)
 
-print(f"Running model on {len(filtered_df)} unique industries...\n")
-
-X = filtered_df['NetMargin']
-y = filtered_df['PayoutRatio']
-
-# Add constant for the intercept
-X = sm.add_constant(X)
-
-model = sm.OLS(y, X).fit()
-
-print(model.summary())
-
-filtered_df.to_csv("data/industry_level_averages.csv", index=False)
+print(f"R-Squared: {model.score(X, y)}")
+print(f"Coefficient: {model.coef_[0]}")
+print(f"Intercept: {model.intercept_}")
