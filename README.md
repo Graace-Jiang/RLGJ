@@ -32,14 +32,29 @@ These datasets are integrated using a standardized industry field created throug
 
 ## Data Quality
 
-We identified several data quality issues in our datasets:
+We assessed data quality using a Python script (`scripts/quality_report.py`) that computes missing values, duplicates, and summary statistics.
 
-- Inconsistent industry naming across datasets
-- Different levels of granularity in industry classifications
-- Missing values in financial variables
-- One missing industry value in the Yahoo dataset
+### Completeness and Missingness
 
-These issues affect the comparability and integration of the datasets and must be addressed before analysis.
+The dataset is largely complete, with most variables having very few missing values. However, Dividend Yield has a higher number of missing values (96 observations), reflecting incomplete data availability from the source.
+
+A small number of missing values (typically 1 observation) appear in variables such as DamodaranIndustry and NetMargin, mainly due to unmatched industry classifications during the integration process.
+
+### Duplicates
+
+No duplicate rows were found in the dataset, indicating that each observation represents a unique firm.
+
+### Consistency
+
+Industry classification inconsistencies were observed between Yahoo Finance and Damodaran datasets. These differences required transformation before merging.
+
+### Summary Statistics
+
+Numerical variables fall within reasonable ranges, and no extreme or implausible values were detected prior to cleaning.
+
+### Conclusion
+
+Overall, the dataset is of high quality, with the primary issue being missing values in Dividend Yield and minor mismatches in industry classification, both of which are addressed in the data cleaning stage.
 
 ## Data Cleaning
 
