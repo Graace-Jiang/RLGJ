@@ -32,45 +32,52 @@ These datasets are integrated using a standardized industry field created throug
 
 ## Data Quality
 
-We assessed data quality using a Python profiling script (`scripts/quality_report.py`) that computes missing values, duplicate rows, and summary statistics for the integrated dataset. This script provides a reproducible data quality assessment step in our workflow, as the same checks can be rerun to verify the condition of the dataset.
+We assessed data quality using `scripts/quality_report.py`. This script performs both file integrity checks and data profiling. It computes SHA-256 hashes for the raw input files, and reports dataset dimensions, missing values, duplicate rows, and summary statistics for the raw Yahoo Finance dataset, the raw Damodaran dataset, the merged dataset, and the final cleaned dataset. This makes the data quality assessment fully reproducible.
 
-### Data Integrity (SHA-256)
+### Data Integrity
 
-To support data integrity and reproducibility, we computed a SHA-256 hash for the raw Damodaran dataset. SHA-256 acts as a unique fingerprint for the file: any modification to the file would result in a different hash value. This ensures that anyone reproducing our project can verify they are using the exact same dataset.
+To ensure reproducibility, we computed SHA-256 hashes for the raw input datasets:
 
-- `marginGlobal.xls`: `89fe631c20f3494bb8afbd6f4407bc2000e3c94e58603da1f2d1f3acd1113e79`
+- `data/sp500_dividend_data.csv`: `72c68f354a5b0f4f08bc8a84d9a8974fad65949c603dd1d5f80d7059389fb478`
+- `data/marginGlobal.xls`: `89fe631c20f3494bb8afbd6f4407bc2000e3c94e58603da1f2d1f3acd1113e79`
 
-This step is particularly important because the Damodaran dataset is externally sourced and serves as a benchmark in our analysis.
-
-We also assessed the Yahoo Finance dataset (`sp500_dividend_data.csv`) using the same profiling script. This dataset contains firm-level financial variables such as dividend yield and payout ratio. The profiling results show that this dataset has a higher level of missingness in Dividend Yield, which is expected because not all firms pay dividends or report dividend-related metrics consistently.
+These hashes act as file fingerprints. Any change to the file would result in a different hash, allowing others to verify they are using the exact same data.
 
 ### Completeness and Missingness
 
-The profiling results indicate that the dataset is largely complete, with most variables containing very few missing values. However, `DividendYield` has 96 missing values, which likely reflects incomplete reporting for firms that do not pay dividends or for which data is unavailable in Yahoo Finance.
+The raw Yahoo Finance dataset contains 503 rows and 6 columns. Most fields are complete, but `DividendYield` has 96 missing values. This reflects incomplete data availability rather than data corruption, since not all firms pay dividends or report dividend yield. There is also one missing value in `Industry`, `Sector`, and `PayoutRatio`.
 
-A small number of other fields contain only a single missing value, including industry-related variables and `NetMargin`. This issue arises from one firm whose original industry classification was missing, preventing it from being mapped to a Damodaran industry. Because industry classification and net margin are essential for our analysis, this observation was removed during data cleaning.
+The raw Damodaran dataset contains 105 rows and 19 columns and includes missing values across multiple columns. This is expected because the Excel file is formatted for reporting industry benchmarks rather than being a clean tabular dataset. Only the relevant columns were used during integration.
+
+The merged dataset contains 503 rows and 9 columns. It has one missing value in `DamodaranIndustry`, `Industry_y`, and `NetMargin`, caused by one firm whose industry classification was missing in the Yahoo dataset and therefore could not be mapped.
+
+The final cleaned dataset contains 493 rows and 9 columns, with no missing values remaining. Observations with missing critical fields were removed during cleaning.
 
 ### Duplicates
 
-The profiling script confirmed that there are zero duplicate rows in the dataset. This ensures that each observation represents a unique firm and prevents bias in summary statistics or downstream analysis.
+The profiling script found zero duplicate rows across all datasets (raw Yahoo, raw Damodaran, merged, and cleaned). This confirms that each observation represents a unique firm and that no duplicate records bias the analysis.
 
-### Consistency and Naming
+### Consistency and Industry Classification
 
-A major data quality issue was inconsistency in industry naming across the two datasets. Yahoo Finance uses more granular and heterogeneous industry labels, while Damodaran uses broader and standardized categories. For example, Yahoo categories such as `Internet Retail` or `Software - Infrastructure` do not directly match Damodaran’s categories.
+The most significant data quality issue was inconsistency in industry classification between Yahoo Finance and Damodaran. Yahoo Finance uses highly granular and heterogeneous industry labels, while Damodaran uses broader standardized categories.
 
-This inconsistency prevents direct merging and requires transformation to align the two classification systems.
+This mismatch prevents direct merging. For example, Yahoo categories such as “Internet Retail” or “Software - Infrastructure” do not directly correspond to Damodaran categories. This inconsistency required transformation before integration.
 
 ### Granularity Differences
 
-The two datasets also differ in classification granularity. Yahoo Finance provides detailed industry categories, while Damodaran aggregates industries into broader groups. As a result, multiple Yahoo categories must be mapped into a single Damodaran category. This introduces ambiguity during integration and requires careful grouping logic to preserve meaningful relationships.
+The two datasets differ in classification granularity. Yahoo Finance provides detailed industry categories, while Damodaran aggregates industries into broader groups. As a result, multiple Yahoo categories must be mapped to a single Damodaran category.
 
-### Summary Statistics
+This introduces ambiguity and is the primary source of integration complexity in the dataset.
 
-The numerical ranges of variables were reviewed using summary statistics generated by `scripts/quality_report.py`. The results indicate that values fall within reasonable ranges for financial data, and no implausible values were detected prior to cleaning.
+### Summary Statistics and Plausibility
+
+The profiling script generated summary statistics for numerical variables. In the merged dataset, `PayoutRatio` reaches a maximum value of 12.2003, which is unusually high and may distort analysis.
+
+During cleaning, we applied thresholds to remove outliers, restricting `PayoutRatio` to values below 5 and bounding `DividendYield` within a reasonable range. After cleaning, the final dataset has a maximum `PayoutRatio` of 4.7143 and no missing values.
 
 ### Conclusion
 
-Overall, the dataset is of high quality and suitable for analysis after cleaning. The primary data quality issues include missing dividend values, a small number of missing industry classifications, and inconsistencies in industry naming and granularity between datasets. These issues are systematically addressed in the data cleaning stage using reproducible transformations.
+Overall, the data quality assessment shows that the datasets are usable but require cleaning. The main issues are missing values in dividend-related variables, differences in industry classification systems, and the presence of outliers. These issues were systematically addressed through reproducible transformations and filtering steps, resulting in a clean dataset suitable for analysis.
 
 ## Data Cleaning
 
