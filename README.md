@@ -42,6 +42,8 @@ To support data integrity and reproducibility, we computed a SHA-256 hash for th
 
 This step is particularly important because the Damodaran dataset is externally sourced and serves as a benchmark in our analysis.
 
+We also assessed the Yahoo Finance dataset (`sp500_dividend_data.csv`) using the same profiling script. This dataset contains firm-level financial variables such as dividend yield and payout ratio. The profiling results show that this dataset has a higher level of missingness in Dividend Yield, which is expected because not all firms pay dividends or report dividend-related metrics consistently.
+
 ### Completeness and Missingness
 
 The profiling results indicate that the dataset is largely complete, with most variables containing very few missing values. However, `DividendYield` has 96 missing values, which likely reflects incomplete reporting for firms that do not pay dividends or for which data is unavailable in Yahoo Finance.
