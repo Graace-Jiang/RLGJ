@@ -43,41 +43,85 @@ To ensure reproducibility, we computed SHA-256 hashes for the raw input datasets
 
 These hashes act as file fingerprints. Any change to the file would result in a different hash, allowing others to verify they are using the exact same data.
 
-### Completeness and Missingness
+### Raw Yahoo Finance Dataset
 
-The raw Yahoo Finance dataset contains 503 rows and 6 columns. Most fields are complete, but `DividendYield` has 96 missing values. This reflects incomplete data availability rather than data corruption, since not all firms pay dividends or report dividend yield. There is also one missing value in `Industry`, `Sector`, and `PayoutRatio`.
+The raw Yahoo Finance dataset (collected using the `yfinance` library) contains 503 rows and 6 columns. The profiling output is summarized below:
 
-The raw Damodaran dataset contains 105 rows and 19 columns and includes missing values across multiple columns. This is expected because the Excel file is formatted for reporting industry benchmarks rather than being a clean tabular dataset. Only the relevant columns were used during integration.
+| Column         | Missing Values |
+|----------------|---------------|
+| Ticker         | 0             |
+| Company        | 0             |
+| Industry       | 1             |
+| Sector         | 1             |
+| DividendYield  | 96            |
+| PayoutRatio    | 1             |
 
-The merged dataset contains 503 rows and 9 columns. It has one missing value in `DamodaranIndustry`, `Industry_y`, and `NetMargin`, caused by one firm whose industry classification was missing in the Yahoo dataset and therefore could not be mapped.
+The most significant issue is the 96 missing values in `DividendYield`. This is not treated as a data error because many firms do not pay dividends or do not report dividend yield. Instead, these values are handled during cleaning by filling them with 0.
 
-The final cleaned dataset contains 493 rows and 9 columns, with no missing values remaining. Observations with missing critical fields were removed during cleaning.
+The single missing value in `Industry` is more critical because it prevents mapping to Damodaran categories. This row cannot be properly integrated and is therefore removed later in the pipeline.
 
-### Duplicates
+The script also confirms that there are 0 duplicate rows in this dataset.
 
-The profiling script found zero duplicate rows across all datasets (raw Yahoo, raw Damodaran, merged, and cleaned). This confirms that each observation represents a unique firm and that no duplicate records bias the analysis.
+### Raw Damodaran Dataset
 
-### Consistency and Industry Classification
+The raw Damodaran dataset contains 105 rows and 19 columns. The profiling output shows missing values across several columns (typically 7–8 missing values per column). This is expected because the dataset is structured as a reporting table rather than a clean relational dataset.
 
-The most significant data quality issue was inconsistency in industry classification between Yahoo Finance and Damodaran. Yahoo Finance uses highly granular and heterogeneous industry labels, while Damodaran uses broader standardized categories.
+We do not treat these missing values as a major issue because only a subset of columns (industry and net margin) is used for analysis. Unused columns are not fully cleaned, as doing so would not improve the final dataset.
 
-This mismatch prevents direct merging. For example, Yahoo categories such as “Internet Retail” or “Software - Infrastructure” do not directly correspond to Damodaran categories. This inconsistency required transformation before integration.
+There are also 0 duplicate rows in this dataset.
 
-### Granularity Differences
+### Merged Dataset
 
-The two datasets differ in classification granularity. Yahoo Finance provides detailed industry categories, while Damodaran aggregates industries into broader groups. As a result, multiple Yahoo categories must be mapped to a single Damodaran category.
+After integration, the merged dataset contains 503 rows and 9 columns. The profiling results show:
 
-This introduces ambiguity and is the primary source of integration complexity in the dataset.
+| Issue                        | Count |
+|-----------------------------|------|
+| Missing DividendYield       | 96   |
+| Missing DamodaranIndustry   | 1    |
+| Missing NetMargin           | 1    |
+
+The missing values in `DamodaranIndustry` and `NetMargin` correspond to a single observation that could not be matched due to missing industry information. This issue is not ignored because it affects the ability to assign industry-level benchmarks. The observation is removed during cleaning.
+
+The missing values in `DividendYield` are treated differently. These are interpreted as absence of dividend data rather than integration errors, and are filled with 0 to preserve firms in the dataset.
+
+The dataset also contains 0 duplicate rows.
 
 ### Summary Statistics and Plausibility
 
-The profiling script generated summary statistics for numerical variables. In the merged dataset, `PayoutRatio` reaches a maximum value of 12.2003, which is unusually high and may distort analysis.
+Key summary statistics from the profiling output:
 
-During cleaning, we applied thresholds to remove outliers, restricting `PayoutRatio` to values below 5 and bounding `DividendYield` within a reasonable range. After cleaning, the final dataset has a maximum `PayoutRatio` of 4.7143 and no missing values.
+| Variable        | Min   | Max     |
+|----------------|------|---------|
+| DividendYield  | 0.02 | 9.44    |
+| PayoutRatio    | 0.00 | 12.20   |
+| NetMargin      | -0.04| 0.35    |
+
+The maximum `PayoutRatio` value of 12.20 is unusually high and indicates extreme observations that could distort analysis. These values are not ignored but are treated as outliers and filtered during the data cleaning stage.
+
+The ranges for `DividendYield` and `NetMargin` are generally reasonable and consistent with expected financial behavior, so no additional filtering is applied to these variables beyond standard cleaning steps.
+
+### Cleaned Dataset
+
+After cleaning, the final dataset contains 493 rows and 9 columns, with:
+
+- 0 missing values in all columns  
+- 0 duplicate rows  
+
+Outliers were removed by restricting `PayoutRatio` to values below 5. As a result, the maximum `PayoutRatio` decreased from 12.20 to 4.71.
+
+### Data Quality Limitations
+
+Not all data quality issues are treated equally. Some issues are intentionally not fully corrected:
+
+- Missing values in `DividendYield` are not removed because they represent firms without dividend information rather than corrupted data.
+- Missing values in the Damodaran dataset are not fully cleaned because only a subset of columns is used.
+- Differences in industry granularity are not fully resolved, but are handled through mapping to broader categories.
+
+These decisions are made to balance data completeness and analytical validity, ensuring that the dataset remains representative while minimizing bias.
 
 ### Conclusion
 
-Overall, the data quality assessment shows that the datasets are usable but require cleaning. The main issues are missing values in dividend-related variables, differences in industry classification systems, and the presence of outliers. These issues were systematically addressed through reproducible transformations and filtering steps, resulting in a clean dataset suitable for analysis.
+Overall, the data quality assessment shows that the datasets are usable but require cleaning. The main issues identified were missing values in dividend-related variables, one missing industry classification, inconsistent industry naming, and extreme values in payout ratios. These issues were systematically addressed through reproducible transformations, resulting in a clean and analysis-ready dataset.
 
 ## Data Cleaning
 
