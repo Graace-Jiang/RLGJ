@@ -318,7 +318,7 @@ All required datasets, scripts, OpenRefine history files, intermediate outputs, 
 
 ### Metadata
 
-[View Project Metadata (DCAT JSON-LD)](./metadata.jsonld)
+[View Project Metadata (DCAT JSON-LD)](./metadata.json)
 
 [View Data Dictionary](./data_dictionary.txt)
 
