@@ -319,7 +319,9 @@ All required datasets, scripts, OpenRefine history files, intermediate outputs, 
 ### Metadata
 
 [View Project Metadata (DCAT JSON-LD)](./metadata.jsonld)
+
 [View Data Dictionary](./data_dictionary.txt)
+
 [View Python Package Record](./pip_freeze.txt)
 
 
