@@ -1,0 +1,86 @@
+{
+  "@context": {
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dct": "http://purl.org/dc/terms/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "foaf": "http://xmlns.com/foaf/0.1/"
+  },
+  "@type": "dcat:Catalog",
+  "dct:title": "S&P 500 Dividend Policy and Industry Profitability Analysis",
+  "dct:description": "A study on the relationship between industry-level net margins and individual firm dividend payout ratios, resulting in a model fit of $R^2 = 0.054$.",
+  "dct:publisher": [
+    {
+      "@type": "foaf:Person",
+      "foaf:name": "Richard Li",
+      "dct:description": "Lead for data collection, acquisition, ethical handling, and metadata documentation."
+    },
+    {
+      "@type": "foaf:Person",
+      "foaf:name": "Grace Jiang",
+      "foaf:name": "Lead for data lifecycle, cleaning, integration, and quality assessment."
+    }
+  ],
+  "dcat:dataset": [
+    {
+      "@type": "dcat:Dataset",
+      "dct:title": "Market Data via yfinance (Raw)",
+      "dct:description": "Raw financial data fetched for S&P 500 components as of early 2026.",
+      "dct:identifier": "72c68f354a5b0f4f08bc8a84d9a8974fad65949c603dd1d5f80d7059389fb478",
+      "dct:license": "Apache License 2.0",
+      "dcat:distribution": {
+        "@type": "dcat:Distribution",
+        "dct:title": "sp500_dividend_data.csv",
+        "dcat:mediaType": "text/csv",
+        "prov:wasGeneratedBy": "scripts/pull_dividend_data.py"
+      }
+    },
+    {
+      "@type": "dcat:Dataset",
+      "dct:title": "NYU Stern Margins by Industry (Raw)",
+      "dct:description": "Industry profitability benchmarks compiled by Professor Aswath Damodaran.",
+      "dct:identifier": "89fe631c20f3494bb8afbd6f4407bc2000e3c94e58603da1f2d1f3acd1113e79",
+      "dcat:distribution": {
+        "@type": "dcat:Distribution",
+        "dct:title": "marginGlobal.xls",
+        "dcat:mediaType": "application/vnd.ms-excel"
+      }
+    },
+    {
+      "@type": "dcat:Dataset",
+      "dct:title": "Cleaned Final Dataset",
+      "dct:description": "Integrated and statistically standardized dataset containing 493 observations.",
+      "prov:wasDerivedFrom": [
+        "sp500_dividend_data.csv",
+        "marginGlobal.xls"
+      ],
+      "dcat:distribution": {
+        "@type": "dcat:Distribution",
+        "dct:title": "clean_final_dataset.csv",
+        "dcat:mediaType": "text/csv",
+        "prov:wasGeneratedBy": [
+          "scripts/merge_data.py",
+          "scripts/clean_data.py",
+          "data/history.json"
+        ]
+      }
+    }
+  ],
+  "prov:wasGeneratedBy": [
+    {
+      "@type": "prov:Activity",
+      "dct:title": "Data Acquisition",
+      "prov:used": "scripts/pull_dividend_data.py"
+    },
+    {
+      "@type": "prov:Activity",
+      "dct:title": "Data Quality Reporting",
+      "prov:used": "scripts/quality_report.py"
+    },
+    {
+      "@type": "prov:Activity",
+      "dct:title": "Industry Curation (GREL)",
+      "prov:used": "data/history.json"
+    }
+  ]
+}
