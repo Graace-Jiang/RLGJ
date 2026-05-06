@@ -1,0 +1,49 @@
+Project Title: S&P 500 Dividend Policy and Industry Profitability Analysis
+Date: May 2026
+Contributors: Grace Jiang, Richard Li
+
+FILE: clean_final_dataset.csv
+--------------------------------------------------------------------------------
+This dataset integrates firm-level financial metrics for the S&P 500 with 
+industry-level benchmarks.
+
+TOTAL OBSERVATIONS: 493
+TOTAL VARIABLES: 9
+
+VARIABLES:
+Ticker (String) 
+- The unique stock symbol for the company (e.g., "AAPL", "MSFT"). 
+- Source: yfinance / S&P 500 Ticker List.
+
+Company (String) 
+- The company name associated with the stock ticker. 
+- Source: yfinance.
+
+Industry_x (String) 
+- The original industry classification provided by Yahoo Finance through yfinance. 
+- Source: yfinance.
+
+DamodaranIndustry (String) 
+- The standardized industry category created through OpenRefine mapping to align Yahoo Finance industries with Damodaran industry classifications. 
+- Source: OpenRefine transformation based on Yahoo Finance and Damodaran datasets.
+
+Sector (String) 
+- The broad business sector classification for the company (e.g., Technology, Healthcare). 
+- Source: yfinance.
+
+DividendYield (Float) 
+- The company’s dividend yield percentage. Missing values are filled with 0 during cleaning when dividend information is unavailable. 
+- Source: yfinance.
+
+PayoutRatio (Float) 
+- The proportion of earnings paid as dividends by the company. 
+- Source: yfinance.
+
+Industry_y (String) 
+- The original industry category from the Damodaran dataset after merging. 
+- Source: Damodaran “Margins by Industry” dataset.
+
+NetMargin (Float) 
+- The industry-level net profit margin benchmark associated with the mapped Damodaran industry category. 
+- Source: Damodaran “Margins by Industry” dataset.
+--------------------------------------------------------------------------------
