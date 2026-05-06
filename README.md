@@ -3,28 +3,18 @@
 ## Contributors
 
 * **Grace Jiang**
-
-Data lifecycle (Module 1)
-
-Data cleaning (Module 10)
-
-Data integration (Modules 7/8)
-
-Data quality (Module 9)
-
-Reproducibility and transparency (Module 13)
+  - Data lifecycle (Module 1)
+  - Data cleaning (Module 10)
+  - Data integration (Modules 7/8)
+  - Data quality (Module 9)
+  - Reproducibility and transparency (Module 13)
 
 * **Richard Li**
-
-Data collection and acquisition (Module 3)
-
-Ethical data handling (Module 2)
-
-Storage and organization (Modules 4/5)
-
-Metadata and data documentation (Module 15)
-
-Workflow automation and provenance (Modules 11/12)
+  - ata collection and acquisition (Module 3)
+  - Ethical data handling (Module 2)
+  - Storage and organization (Modules 4/5)
+  - Metadata and data documentation (Module 15)
+  - Workflow automation and provenance (Modules 11/12)
 
 ---
 
@@ -57,7 +47,7 @@ Our storage strategy is mainly on interoperability and structured data managemen
 
 ---
 
-### 4. Data Description and Profiling
+## Data Profile
 
 Each data set used within this project is described below in a self-contained profile including source, acquisition, coverage, description, license, format, variables and ethical considerations.
 
@@ -71,7 +61,7 @@ Each data set used within this project is described below in a self-contained pr
 
 **Description:** This dataset represents the “ground truth” for firm level behaviour and is the source of our dependent variables. It includes rich financial payout data, company ID and granular industry tags.
 
-**License:** he yfinance library is released under the Apache License 2.0 (a permissive open-source license). The data downloaded is subject to the Yahoo Finance Terms of Service, which prohibit its use for free tier accounts other than personal, non-commercial, and educational purposes.
+**License:** The yfinance library is released under the Apache License 2.0 (a permissive open-source license). The data downloaded is subject to the Yahoo Finance Terms of Service, which prohibit its use for free tier accounts other than personal, non-commercial, and educational purposes.
 
 **Format:** Data was extracted and stored in Comma Separated Values ( .csv ) format, to allow for easy manipulation using the pandas library and version control through Git.
 
@@ -117,7 +107,7 @@ Each data set used within this project is described below in a self-contained pr
 
 ## Data Quality
 
-We performed data quality checks with scripts/quality_report.py. This is both a file integrity check and a data profiling check. Computes SHA-256 hashes of the raw input files. Reports dataset dimensions, missing values, duplicate rows, profile summary statistics for the raw input Yahoo Finance dataset and the raw input Damodaran dataset, the merged dataset, and the final cleaned dataset. Makes the data quality check fully reproducible.
+We performed data quality checks using `scripts/quality_report.py`. This script performs both file integrity checks and data profiling. It computes SHA-256 hashes of the raw input files and reports dataset dimensions, missing values, duplicate rows, and summary statistics for the raw Yahoo Finance dataset, the raw Damodaran dataset, the merged dataset, and the final cleaned dataset.
 
 ### Data Integrity
 
@@ -230,7 +220,7 @@ We applied several levels of logic to standardize labels for the Damodaran bench
 * **Naming Normalization**: We used rules to address simple naming discrepancies (“Semiconductors” vs. “Semiconductor”) that caused non-exact matches when joining the two dataframes down the road. These labels were later normalized to the Damodaran labels using string manipulation rules.
 * **Column Creation**: The output of these transformations was stored in a new field titled `DamodaranIndustry`. We kept the original Yahoo labels for provenance purposes, but this new field provided a clean join key.
 
-The full sequence of transformations are saved in the `data/history.json` file. This file can be thought of as a “recipe” that can be applied to the raw data at any point and used to recreate the mapped file,, `sp500_yahoo_mapped_to_damodaran.csv`.
+The full sequence of transformations are saved in the `data/history.json` file. This file can be thought of as a “recipe” that can be applied to the raw data at any point and used to recreate the mapped file, `sp500_yahoo_mapped_to_damodaran.csv`.
 
 ### Phase 2: Relational Data Integration (The Merge)
 
@@ -324,45 +314,167 @@ We then encountered a procedural hurdle regarding "one-click" automation, as the
 
 To reproduce the analysis and results of this project, follow the sequence below. Note that individual contributions are documented in the Git commit history as required.
 
+All required datasets, scripts, OpenRefine history files, intermediate outputs, and final outputs are included directly in this GitHub repository. No external Box storage is required.
+
 ### 1. Environment Setup
-Install the required Python libraries. This project was developed using the following specific versions:
+
+Install dependencies using:
+
+```bash
+pip install -r requirements.txt
+```
+
+This project was developed using Python and the following major packages:
+
 * `pandas == 2.2.2`
 * `yfinance == 1.2.0`
 * `statsmodels == 0.14.0`
 * `matplotlib == 3.8.0`
 * `seaborn == 0.13.0`
 * `openpyxl == 3.1.5`
+* `scikit-learn == 1.3.0`
+
+A complete record of the package versions used in our development environment is included in:
+
+```text
+pip_freeze.txt
+```
+
+This file was generated using:
+
+```bash
+pip freeze > pip_freeze.txt
+```
 
 ### 2. Data Acquisition
+
 Run the acquisition script to fetch the current S&P 500 financial data from Yahoo Finance:
+
 ```bash
 python scripts/pull_dividend_data.py
 ```
-This will generate `data/sp500_dividend_data.csv`.
+
+This will generate:
+
+```text
+data/sp500_dividend_data.csv
+```
+
+The Damodaran benchmark dataset is included directly in the repository as:
+
+```text
+data/marginGlobal.xls
+```
 
 ### 3. Industry Mapping (OpenRefine)
-The industry mapping requires OpenRefine to apply the rule-based transformations:
-1.  Open **OpenRefine** and create a new project using `data/sp500_dividend_data.csv`.
-2.  Click **Undo/Redo** and select **Apply**.
-3.  Paste the contents of `data/history.json` into the text area and click **Perform Operations**.
-4.  Export the resulting project as a CSV named `sp500_yahoo_mapped_to_damodaran.csv` and place it in the `data/` folder.
 
-### 4. Integration and Cleaning
+The industry mapping requires OpenRefine to apply the rule-based transformations.
+
+1. Open **OpenRefine** and create a new project using:
+
+```text
+data/sp500_dividend_data.csv
+```
+
+2. Click **Undo/Redo** and select **Apply**.
+
+3. Paste the contents of:
+
+```text
+data/history.json
+```
+
+into the text area and click **Perform Operations**.
+
+4. Export the resulting project as:
+
+```text
+data/sp500_yahoo_mapped_to_damodaran.csv
+```
+
+This file is already included in the repository for reproducibility and transparency.
+
+### 4. Data Quality Assessment
+
+To reproduce the data quality assessment and SHA-256 integrity checks, run:
+
+```bash
+python scripts/quality_report.py
+```
+
+This script verifies:
+- SHA-256 hashes of the raw datasets
+- Missing values
+- Duplicate rows
+- Summary statistics
+- Dataset dimensions
+
+for the raw, merged, and cleaned datasets.
+
+### 5. Integration and Cleaning
+
 Run the following scripts to merge the datasets and apply cleaning logic (handling NaNs and outliers):
+
 ```bash
 python scripts/merge_data.py
 python scripts/clean_data.py
 ```
-This generates the final analytical file: `data/clean_final_dataset.csv`.
 
-### 5. Analysis and Visualization
-To generate the regression statistics and charts, run:
+This generates:
+
+```text
+data/final_dataset.csv
+data/clean_final_dataset.csv
+```
+
+### 6. Analysis and Visualization
+
+To generate the regression statistics and visualizations, run:
+
 ```bash
 python scripts/analysis_modified.py
 python scripts/analysis_visualization_test.py
 ```
-The regression summary will be printed to the console, and visualizations will be displayed or saved as artifacts.
-A data dictionary txt file and a meta data json file are also included for reference, reproducibility and transparency.
+
+The regression summary will be printed to the console, and the visualizations will be displayed or saved as artifacts.
+
+### 7. Expected Final Outputs
+
+After reproducing the workflow, the following key outputs should exist:
+
+```text
+data/sp500_dividend_data.csv
+data/sp500_yahoo_mapped_to_damodaran.csv
+data/final_dataset.csv
+data/clean_final_dataset.csv
+```
+
+The final analytical dataset is:
+
+```text
+data/clean_final_dataset.csv
+```
+
+This dataset contains 493 cleaned observations with no missing values in critical analytical fields.
+
+Additional documentation artifacts included in the repository:
+
+```text
+data_dictionary.txt
+README.md
+ProjectPlan.md
+StatusReport.md
+requirements.txt
+pip_freeze.txt
+```
+
+### 8. Licensing and Usage Notes
+
+The code in this repository is intended for educational and research purposes.
+
+Yahoo Finance data was accessed through the `yfinance` Python library and remains subject to Yahoo Finance’s terms of service.
+
+The Damodaran dataset is publicly distributed by Professor Aswath Damodaran (NYU Stern School of Business) for educational and research use with attribution.
 
 ---
 
@@ -372,3 +484,4 @@ A data dictionary txt file and a meta data json file are also included for refer
 * **Damodaran, A. (2026).** *Margins by Industry*. NYU Stern School of Business. [https://pages.stern.nyu.edu/~adamodar/New_Home_Page/data.html](https://pages.stern.nyu.edu/~adamodar/New_Home_Page/data.html)
 * **OpenRefine.** *A free, open source, powerful tool for working with messy data*. [https://openrefine.org/](https://openrefine.org/)
 * **Yahoo Finance.** *Yahoo Developer API Terms of Use*. [https://legal.yahoo.com/us/en/yahoo/terms/developer/index.html](https://legal.yahoo.com/us/en/yahoo/terms/developer/index.html)
+* **scikit-learn developers.** *scikit-learn: Machine Learning in Python*. [https://scikit-learn.org/](https://scikit-learn.org/)
