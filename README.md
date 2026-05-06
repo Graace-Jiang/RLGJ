@@ -37,7 +37,7 @@ The project is organized into a clean directory structure to facilitate ease of 
 | `data/` | Contains all raw, intermediate, and final analytical datasets, including the OpenRefine history. |
 | `scripts/` | Contains all Python scripts used for data acquisition, integration, cleaning, and statistical modeling. |
 | `README.md` | The main project report containing the summary, methodology, findings, and reproduction steps. |
-| `ProjectPlan.md & StatusReport.md` | Project plan and status report generated during the development of the project |
+| `reports/` | Contains project planning and status reporting documents generated during project development. |
 
 
 ### Storage Strategy
@@ -316,6 +316,8 @@ To reproduce the analysis and results of this project, follow the sequence below
 
 All required datasets, scripts, OpenRefine history files, intermediate outputs, and final outputs are included directly in this GitHub repository. No external Box storage is required.
 
+A lightweight workflow script (`run_workflow.sh`) is included to automate the Python-based portion of the pipeline after the OpenRefine mapping step has been completed.
+
 ### Metadata
 
 [View Project Metadata (DCAT JSON-LD)](./metadata.json)
@@ -470,11 +472,14 @@ Additional documentation artifacts included in the repository:
 
 ```text
 data_dictionary.txt
+metadata.json
 README.md
-ProjectPlan.md
-StatusReport.md
+reports/ProjectPlan.md
+reports/StatusReport.md
 requirements.txt
 pip_freeze.txt
+LICENSE
+run_workflow.sh
 ```
 
 ### 8. Licensing and Usage Notes
