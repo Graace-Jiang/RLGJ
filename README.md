@@ -484,11 +484,11 @@ run_workflow.sh
 
 ### 8. Licensing and Usage Notes
 
-The code in this repository is intended for educational and research purposes.
+License: CC BY-NC 4.0
 
 Yahoo Finance data was accessed through the `yfinance` Python library and remains subject to Yahoo Finance’s terms of service.
 
-The Damodaran dataset is publicly distributed by Professor Aswath Damodaran (NYU Stern School of Business) for educational and research use with attribution.
+The Damodaran dataset is publicly distributed by Professor Aswath Damodaran (NYU Stern School of Business) for educational and research use with attribution preferred, but fine without.
 
 ---
 
