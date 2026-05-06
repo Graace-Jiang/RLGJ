@@ -316,7 +316,7 @@ To reproduce the analysis and results of this project, follow the sequence below
 
 All required datasets, scripts, OpenRefine history files, intermediate outputs, and final outputs are included directly in this GitHub repository. No external Box storage is required.
 
-A lightweight workflow script (`run_workflow.sh`) is included to automate the Python-based portion of the pipeline after the OpenRefine mapping step has been completed.
+A lightweight workflow script (`run_workflow.sh`) is included to automate the Python-based portion of the pipeline after the OpenRefine mapping step has been completed. We also included the step-by-step guidance for running the script one-by-one if you would like to perform in that way, with the explanation of the output result.
 
 ### Metadata
 
