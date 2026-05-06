@@ -97,6 +97,13 @@
       "byteSize": 817,
       "description": "Script used for generating and testing regression scatter plot visualizations."
     },
+    {
+      "@type": "dcat:Distribution",
+      "title": "Workflow Automation Script (Bash)",
+      "downloadURL": "https://github.com/Graace-Jiang/RLGJ/blob/1/run_workflow.sh",
+      "mediaType": "text/x-sh",
+      "description": "Master shell script that executes the end-to-end Python pipeline from data acquisition to final analysis."
+    },
   ],
   "identifier": "IS477-RLGJ-FINAL-2026",
   "keyword": [
