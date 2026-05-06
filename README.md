@@ -310,11 +310,15 @@ We then encountered a procedural hurdle regarding "one-click" automation, as the
 
 ---
 
-## Reproducing
+## Reproducing & Metadata
 
 To reproduce the analysis and results of this project, follow the sequence below. Note that individual contributions are documented in the Git commit history as required.
 
 All required datasets, scripts, OpenRefine history files, intermediate outputs, and final outputs are included directly in this GitHub repository. No external Box storage is required.
+
+### Metadata
+
+[View Project Metadata (DCAT JSON-LD)](./metadata.jsonld)
 
 ### 1. Environment Setup
 
