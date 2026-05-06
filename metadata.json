@@ -6,81 +6,105 @@
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "foaf": "http://xmlns.com/foaf/0.1/"
   },
+  "@id": "https://github.com/Graace-Jiang/RLGJ/tree/1",
   "@type": "dcat:Catalog",
   "dct:title": "S&P 500 Dividend Policy and Industry Profitability Analysis",
-  "dct:description": "A study on the relationship between industry-level net margins and individual firm dividend payout ratios, resulting in a model fit of $R^2 = 0.054$.",
+  "dct:description": "An end-to-end data pipeline project developed for the IS477 Course Project. The project integrates firm-level market data from Yahoo Finance and industry-level profitability benchmarks from NYU Stern to explore whether industry net margins predict corporate dividend behavior. The study fulfills the course requirement for data integration, quality assessment, and automated provenance.",
   "dct:publisher": [
     {
       "@type": "foaf:Person",
-      "foaf:name": "Richard Li",
-      "dct:description": "Lead for data collection, acquisition, ethical handling, and metadata documentation."
+      "foaf:name": "Grace Jiang",
+      "dct:description": "Responsible for data lifecycle (Module 1), cleaning (Module 10), integration (Modules 7/8), quality (Module 9), and reproducibility."
     },
     {
       "@type": "foaf:Person",
-      "foaf:name": "Grace Jiang",
-      "foaf:name": "Lead for data lifecycle, cleaning, integration, and quality assessment."
+      "foaf:name": "Richard Li",
+      "dct:description": "Responsible for data collection (Module 3), ethical handling (Module 2), storage (Modules 4/5), metadata (Module 15), and workflow automation."
     }
+  ],
+  "dct:issued": "2026-05-03",
+  "dcat:theme": [
+    "Corporate Finance",
+    "Data Integration",
+    "Reproducible Research",
+    "Dividend Payout Ratios"
   ],
   "dcat:dataset": [
     {
+      "@id": "https://github.com/Graace-Jiang/RLGJ/blob/1/data/sp500_dividend_data.csv",
       "@type": "dcat:Dataset",
-      "dct:title": "Market Data via yfinance (Raw)",
-      "dct:description": "Raw financial data fetched for S&P 500 components as of early 2026.",
-      "dct:identifier": "72c68f354a5b0f4f08bc8a84d9a8974fad65949c603dd1d5f80d7059389fb478",
+      "dct:title": "Raw S&P 500 Dividend Data (Yahoo Finance)",
+      "dct:description": "Firm-level financial data scraped via yfinance API. Includes Ticker, Payout Ratio, and Dividend Yield.",
+      "dct:identifier": "SHA-256: 72c68f354a5b0f4f08bc8a84d9a8974fad65949c603dd1d5f80d7059389fb478",
       "dct:license": "Apache License 2.0",
       "dcat:distribution": {
         "@type": "dcat:Distribution",
         "dct:title": "sp500_dividend_data.csv",
-        "dcat:mediaType": "text/csv",
-        "prov:wasGeneratedBy": "scripts/pull_dividend_data.py"
+        "dcat:downloadURL": "https://github.com/Graace-Jiang/RLGJ/raw/1/data/sp500_dividend_data.csv",
+        "dcat:mediaType": "text/csv"
       }
     },
     {
+      "@id": "https://github.com/Graace-Jiang/RLGJ/blob/1/data/marginGlobal.xls",
       "@type": "dcat:Dataset",
-      "dct:title": "NYU Stern Margins by Industry (Raw)",
-      "dct:description": "Industry profitability benchmarks compiled by Professor Aswath Damodaran.",
-      "dct:identifier": "89fe631c20f3494bb8afbd6f4407bc2000e3c94e58603da1f2d1f3acd1113e79",
+      "dct:title": "NYU Stern Industry Margins (Damodaran)",
+      "dct:description": "Industry-level profitability benchmarks (Gross, Operating, and Net Margins) compiled by Prof. Aswath Damodaran.",
+      "dct:identifier": "SHA-256: 89fe631c20f3494bb8afbd6f4407bc2000e3c94e58603da1f2d1f3acd1113e79",
+      "dct:rights": "Publicly available for educational/research purposes with attribution preferred.",
       "dcat:distribution": {
         "@type": "dcat:Distribution",
         "dct:title": "marginGlobal.xls",
+        "dcat:downloadURL": "https://github.com/Graace-Jiang/RLGJ/raw/1/data/marginGlobal.xls",
         "dcat:mediaType": "application/vnd.ms-excel"
       }
     },
     {
+      "@id": "https://github.com/Graace-Jiang/RLGJ/blob/1/data/clean_final_dataset.csv",
       "@type": "dcat:Dataset",
-      "dct:title": "Cleaned Final Dataset",
-      "dct:description": "Integrated and statistically standardized dataset containing 493 observations.",
+      "dct:title": "Cleaned and Integrated Final Dataset",
+      "dct:description": "The 'ground truth' analytical dataset containing 493 high-quality observations. Result of mapping Yahoo Finance industries to Damodaran categories and mitigating outliers.",
       "prov:wasDerivedFrom": [
-        "sp500_dividend_data.csv",
-        "marginGlobal.xls"
+        "https://github.com/Graace-Jiang/RLGJ/blob/1/data/sp500_dividend_data.csv",
+        "https://github.com/Graace-Jiang/RLGJ/blob/1/data/marginGlobal.xls"
       ],
       "dcat:distribution": {
         "@type": "dcat:Distribution",
         "dct:title": "clean_final_dataset.csv",
-        "dcat:mediaType": "text/csv",
-        "prov:wasGeneratedBy": [
-          "scripts/merge_data.py",
-          "scripts/clean_data.py",
-          "data/history.json"
-        ]
+        "dcat:downloadURL": "https://github.com/Graace-Jiang/RLGJ/raw/1/data/clean_final_dataset.csv",
+        "dcat:mediaType": "text/csv"
       }
     }
   ],
-  "prov:wasGeneratedBy": [
+  "dct:provenance": [
     {
-      "@type": "prov:Activity",
-      "dct:title": "Data Acquisition",
-      "prov:used": "scripts/pull_dividend_data.py"
+      "@type": "dcat:Distribution",
+      "dct:title": "Data Acquisition Script (pull_dividend_data.py)",
+      "dcat:downloadURL": "https://github.com/Graace-Jiang/RLGJ/blob/1/scripts/pull_dividend_data.py",
+      "dcat:byteSize": 1552,
+      "dct:format": "text/x-python"
     },
     {
-      "@type": "prov:Activity",
-      "dct:title": "Data Quality Reporting",
-      "prov:used": "scripts/quality_report.py"
+      "@type": "dcat:Distribution",
+      "dct:title": "Quality Report Script (quality_report.py)",
+      "dcat:downloadURL": "https://github.com/Graace-Jiang/RLGJ/blob/1/scripts/quality_report.py",
+      "dcat:byteSize": 1374,
+      "dct:format": "text/x-python"
     },
     {
-      "@type": "prov:Activity",
-      "dct:title": "Industry Curation (GREL)",
-      "prov:used": "data/history.json"
+      "@type": "dcat:Distribution",
+      "dct:title": "OpenRefine Curation History (history.json)",
+      "dct:description": "The machine-readable JSON 'recipe' used to resolve semantic heterogeneity between industry labels.",
+      "dcat:downloadURL": "https://github.com/Graace-Jiang/RLGJ/blob/1/data/history.json",
+      "dcat:byteSize": 131731,
+      "dct:format": "application/json"
+    },
+    {
+      "@type": "dcat:Distribution",
+      "dct:title": "Statistical Analysis Script (analysis_modified.py)",
+      "dct:description": "Generates the OLS regression results ($R^2 = 0.054$) described in project findings.",
+      "dcat:downloadURL": "https://github.com/Graace-Jiang/RLGJ/blob/1/scripts/analysis_modified.py",
+      "dcat:byteSize": 671,
+      "dct:format": "text/x-python"
     }
   ]
 }
