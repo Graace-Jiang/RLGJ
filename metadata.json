@@ -1,0 +1,127 @@
+{
+  "@type": "dcat:Dataset",
+  "accessLevel": "public",
+  "accrualPeriodicity": "irregular",
+  "bureauCode": [
+    "000:00"
+  ],
+  "contactPoint": {
+    "fn": "Richard Li & Grace Jiang",
+    "hasEmail": "rxli2@illinois.edu"
+  },
+  "description": "An end-to-end data pipeline project for IS477 integrating S&P 500 market data and industry benchmarks to analyze corporate dividend policies.",
+  "distribution": [
+    {
+      "@type": "dcat:Distribution",
+      "title": "Raw S&P 500 Market Data (CSV)",
+      "downloadURL": "https://github.com/Graace-Jiang/RLGJ/raw/1/data/sp500_dividend_data.csv",
+      "mediaType": "text/csv",
+      "description": "Raw financial data scraped via yfinance.",
+      "identifier": "SHA-256: 72c68f354a5b0f4f08bc8a84d9a8974fad65949c603dd1d5f80d7059389fb478"
+    },
+    {
+      "@type": "dcat:Distribution",
+      "title": "NYU Stern Industry Benchmarks (XLS)",
+      "downloadURL": "https://github.com/Graace-Jiang/RLGJ/raw/1/data/marginGlobal.xls",
+      "mediaType": "application/vnd.ms-excel",
+      "description": "Industry-level profitability benchmarks compiled by Aswath Damodaran.",
+      "identifier": "SHA-256: 89fe631c20f3494bb8afbd6f4407bc2000e3c94e58603da1f2d1f3acd1113e79"
+    },
+    {
+      "@type": "dcat:Distribution",
+      "title": "Merged Intermediate Dataset (CSV)",
+      "downloadURL": "https://github.com/Graace-Jiang/RLGJ/raw/1/data/final_dataset.csv",
+      "mediaType": "text/csv",
+      "description": "Output of the relational join between market and benchmark data."
+    },
+    {
+      "@type": "dcat:Distribution",
+      "title": "Cleaned Final Analytical Dataset (CSV)",
+      "downloadURL": "https://github.com/Graace-Jiang/RLGJ/raw/1/data/clean_final_dataset.csv",
+      "mediaType": "text/csv",
+      "description": "Final dataset with 493 observations after outlier mitigation and zero-imputation."
+    },
+    {
+      "@type": "dcat:Distribution",
+      "title": "Data Acquisition Script",
+      "downloadURL": "https://github.com/Graace-Jiang/RLGJ/blob/1/scripts/pull_dividend_data.py",
+      "mediaType": "text/x-python",
+      "byteSize": 1552,
+      "description": "Python script for automated API data retrieval."
+    },
+    {
+      "@type": "dcat:Distribution",
+      "title": "Data Quality Assessment Script",
+      "downloadURL": "https://github.com/Graace-Jiang/RLGJ/blob/1/scripts/quality_report.py",
+      "mediaType": "text/x-python",
+      "byteSize": 1374,
+      "description": "Script performing SHA-256 checks and data profiling."
+    },
+    {
+      "@type": "dcat:Distribution",
+      "title": "Data Integration Script",
+      "downloadURL": "https://github.com/Graace-Jiang/RLGJ/blob/1/scripts/merge_data.py",
+      "mediaType": "text/x-python",
+      "byteSize": 1175,
+      "description": "Script used to merge disparate data sources via relational joins."
+    },
+    {
+      "@type": "dcat:Distribution",
+      "title": "Data Cleaning Script",
+      "downloadURL": "https://github.com/Graace-Jiang/RLGJ/blob/1/scripts/clean_data.py",
+      "mediaType": "text/x-python",
+      "byteSize": 670,
+      "description": "Script handling numerical standardization and outlier mitigation."
+    },
+    {
+      "@type": "dcat:Distribution",
+      "title": "Statistical Analysis Script",
+      "downloadURL": "https://github.com/Graace-Jiang/RLGJ/blob/1/scripts/analysis_modified.py",
+      "mediaType": "text/x-python",
+      "byteSize": 671,
+      "description": "Script performing OLS regression on integrated data."
+    },
+    {
+      "@type": "dcat:Distribution",
+      "title": "OpenRefine Curation History",
+      "downloadURL": "https://github.com/Graace-Jiang/RLGJ/blob/1/data/history.json",
+      "mediaType": "application/json",
+      "byteSize": 131731,
+      "description": "JSON recipe documenting GREL transformations for industry alignment."
+    },
+    {
+      "@type": "dcat:Distribution",
+      "title": "Analytical Visualization Test Script",
+      "downloadURL": "https://github.com/Graace-Jiang/RLGJ/blob/1/scripts/analysis_visualization_test.py",
+      "mediaType": "text/x-python",
+      "byteSize": 817,
+      "description": "Script used for generating and testing regression scatter plot visualizations."
+    },
+  ],
+  "identifier": "IS477-RLGJ-FINAL-2026",
+  "keyword": [
+    "Corporate Finance",
+    "Dividend Policy",
+    "Data Quality",
+    "Reproducibility",
+    "S&P 500"
+  ],
+  "landingPage": "https://github.com/Graace-Jiang/RLGJ/tree/1",
+  "modified": "2026-05-06",
+  "programCode": [
+    "000:000"
+  ],
+  "publisher": {
+    "@type": "org:Organization",
+    "name": "University of Illinois",
+    "subOrganizationOf": {
+      "@type": "org:Organization",
+      "name": "School of Information Sciences",
+      "subOrganizationOf": {
+        "@type": "org:Organization",
+        "name": "IS477: Data Management, Curation & Reproducibility"
+      }
+    }
+  },
+  "title": "S&P 500 Dividend Policy and Industry Profitability Analysis"
+}
